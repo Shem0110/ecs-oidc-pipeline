@@ -16,7 +16,7 @@ permissions:
   contents: read  # check out the repo
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-southeast-1
   ECR_REPOSITORY: ecs-oidc
   ECS_CLUSTER: ecs-oidc
   ECS_SERVICE: ecs-oidc
@@ -70,4 +70,4 @@ jobs:
           task-definition: ${{ steps.taskdef.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          wait-for-service-stability: true  

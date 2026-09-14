@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+
+      - name: Terraform formatting
+        run: terraform -chdir=infra fmt -check -recursive
+
+      - name: Terraform validation
+        run: |
+          terraform -chdir=infra init -backend=false
+          terraform -chdir=infra validate
+
+      - name: Image builds cleanly
+        run: docker build -t ci-check .
